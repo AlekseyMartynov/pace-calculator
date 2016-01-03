@@ -1,0 +1,59 @@
+#form-wrapper
+  form.form-horizontal(data-bind="submit: calculate")
+    // ko with: input
+    .form-group
+      .col-xs-4.text-right
+        .form-control-static
+          abbr(title="Your recent race distance") Distance
+      .col-xs-4.my-col-nopad
+        input.form-control.text-right(type="number", step="any", data-bind="value: raceDist")
+      .col-xs-4.my-col-nopad
+        select.form-control(data-bind="value: raceDistUnits")
+          option km
+          option mi
+          option m
+
+    .form-group
+      .col-xs-4.text-right
+        .form-control-static
+          abbr(title="Your recent race time (hh:mm:ss)") Time
+      .col-xs-2.my-col-nopad
+        input.form-control.text-right(type="number", data-bind="value: raceHours", placeholder="00")
+      .col-xs-1.my-col-nopad.text-center
+        .form-control-static :
+      .col-xs-2.my-col-nopad
+        input.form-control.text-right(type="number", data-bind="value: raceMinutes", placeholder="00")
+      .col-xs-1.my-col-nopad.text-center
+        .form-control-static :
+      .col-xs-2.my-col-nopad
+        input.form-control.text-right(type="number", data-bind="value: raceSeconds", placeholder="00")
+
+    .form-group
+      .col-xs-4.text-right
+        .form-control-static
+          abbr(title="Your maximum heart rate (optional)") HR max
+      .col-xs-4.my-col-nopad
+        input.form-control.text-right(type="number", data-bind="value: hrMax", placeholder="bpm")
+      .col-xs-2.text-right
+        .form-control-static
+          abbr(title="Used to estimate maximum heart rate (optional)") Age
+      .col-xs-2.my-col-nopad
+        input.form-control.text-right(type="number", data-bind="value: age")
+
+    .form-group
+      .col-xs-4.text-right
+        .form-control-static Output
+      .col-xs-4.my-col-nopad
+        select.form-control(data-bind="value: outputFormat")
+          option(value="pace") Pace
+          option(value="speed") Speed
+      .col-xs-4.my-col-nopad
+        select.form-control(data-bind="value: outputUnits")
+          option km
+          option mi
+    // /ko
+
+    .form-group
+      .col-xs-4
+      .col-xs-8.my-col-nopad
+        button.btn.btn-lg.btn-primary.btn-block(type="submit") Calculate

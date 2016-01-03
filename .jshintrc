@@ -1,0 +1,13 @@
+{
+    "strict": true,
+    "node": true,
+    "browser": true,
+    "devel": true,
+    "undef": true,
+    "unused": "vars",
+    "eqeqeq": true,
+    "eqnull": true,
+    "sub": true,
+    "validthis": true,
+    "laxbreak": true
+}

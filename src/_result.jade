@@ -1,0 +1,15 @@
+div(data-bind="if: result")
+  table.table.table-condensed
+    thead
+      tr
+        th Workout
+        th(data-bind="text: effortCaption")
+        th HR
+    tbody
+      // ko foreach: result
+      tr
+        td(data-bind="text: name")
+        td: strong.text-primary(data-bind="text: effort")
+        td(data-bind="text: hr")
+      // /ko
+      

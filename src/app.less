@@ -1,0 +1,72 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600);
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+.my-col-nopad {
+    padding-left: 1px;
+    padding-right: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input::-ms-clear {
+    display: none;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+#main-wrapper {
+    width: 290px;
+    margin: 12px auto 0;
+
+    td {
+        white-space: nowrap;
+    }
+}
+
+#form-wrapper {
+    margin-bottom: 24px;
+
+    .form-group {
+        // https://github.com/twbs/bootstrap/issues/10000 ?
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .form-control {
+        padding-right: 8px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    body {
+        background: url(img/bg2.jpg) no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    #main-wrapper {
+        background: rgba(255, 255, 255, 0.9);        
+        border-radius: 6px;
+
+        width: 500px;
+        padding: 32px 48px 16px;
+        margin-top: 32px;
+        
+        table {
+            background: rgba(255, 255, 255, 0.7);
+            
+            td, th {
+                padding: 8px 24px;
+            }
+        }
+    }
+}
