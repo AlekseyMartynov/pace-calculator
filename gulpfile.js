@@ -1,6 +1,9 @@
 "use strict";
 
-var DEV = false,
+var DEV = false;
+
+// Keep versions in sync with packages.json
+var JQ_CDN_VERSION = "1.11.3",
     BOOTSTRAP_CDN_VERSION = "3.3.6",
     KO_CDN_VERSION = "3.4.0";
 
@@ -25,6 +28,7 @@ gulp.task("vendor", function() {
         return del("www/vendor");
 
     return merge(
+        gulp.src("node_modules/jquery/dist/jquery.js").pipe(gulp.dest("www/vendor")),
         gulp.src("node_modules/knockout/build/output/knockout-latest.debug.js").pipe(gulp.dest("www/vendor")),
         gulp.src("node_modules/bootstrap/dist/**/*.*").pipe(gulp.dest("www/vendor/bootstrap"))
     );
@@ -102,14 +106,25 @@ gulp.task("dev", function(callback) {
 });
 
 function vendorPaths() {
+    var bootstrapCdn = "https://maxcdn.bootstrapcdn.com/bootstrap/" + BOOTSTRAP_CDN_VERSION; 
+    
     return {
+        jquery: DEV
+            ? "vendor/jquery.js"
+            : "https://code.jquery.com/jquery-" + JQ_CDN_VERSION + ".min.js",
+            
         knockout: DEV
             ? "vendor/knockout-latest.debug.js"
             : "https://cdnjs.cloudflare.com/ajax/libs/knockout/" + KO_CDN_VERSION + "/knockout-min.js",
 
         bootstrap_css: DEV
             ? "vendor/bootstrap/css/bootstrap.css"
-            : "https://maxcdn.bootstrapcdn.com/bootstrap/" + BOOTSTRAP_CDN_VERSION + "/css/bootstrap.min.css"
+            : bootstrapCdn + "/css/bootstrap.min.css",
+            
+        bootstrap_js: DEV
+            ? "vendor/bootstrap/js/bootstrap.js"
+            : bootstrapCdn + "/js/bootstrap.min.js",
+            
     };
 }
 

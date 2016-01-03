@@ -1,5 +1,13 @@
-/* global ko */
+/* global ko, $ */
 
 "use strict";
 
-ko.applyBindings(require("./viewModel"));
+$(function() {
+    ko.applyBindings(require("./viewModel"));
+    
+    $("body").tooltip({ 
+        selector: "[data-toggle=tooltip]",
+        container: "body",
+        placement: "auto"
+    });    
+});

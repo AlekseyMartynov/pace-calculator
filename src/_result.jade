@@ -3,12 +3,12 @@ div(data-bind="if: result")
     thead
       tr
         th Workout
-        th(data-bind="text: effortCaption")
-        th HR
+        th: abbr(data-bind="text: effortCaption", title="Recommended effort", data-toggle="tooltip")
+        th: abbr(title="Recommended heart-rate range, beats per minute", data-toggle="tooltip") HR
     tbody
       // ko foreach: result
       tr
-        td(data-bind="text: name")
+        td: abbr(data-bind="text: workout.name, attr: { title: workout.info }", data-toggle="tooltip")
         td: strong.text-primary(data-bind="text: effort")
         td(data-bind="text: hr")
       // /ko

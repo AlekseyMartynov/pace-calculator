@@ -34,7 +34,7 @@ module.exports = function(raceKm, raceSeconds, hrMax, rangeFormatter) {
             slowTime = w.racePace[1];
 
         result.push({
-            name: w.name,
+            workout: w,
             effort: rangeFormatter(
                 round5(slowTime / bisectModel(slowTime * speedFactor)),
                 round5(fastTime / bisectModel(fastTime * speedFactor))
