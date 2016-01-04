@@ -2,6 +2,10 @@
 
 var KM_PER_MILE = 1.609344;
 
+function round5(value) {
+    return 5 * Math.round(value / 5);
+}
+
 function formatSpeed(secondsPerUnit) {
     return (3600 / secondsPerUnit).toFixed(1);
 }
@@ -35,6 +39,9 @@ module.exports = function(isSpeed, isMetric) {
             slow = slow * KM_PER_MILE;
             fast = fast * KM_PER_MILE;
         }
+        
+        slow = round5(slow);
+        fast = round5(fast);
 
         if(isSpeed)
             return [ formatSpeed(slow), formatSpeed(fast) ];

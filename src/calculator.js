@@ -8,10 +8,6 @@ function bisectModel(time) {
     return bisect(model, time, 0, 300, 0.001);
 }
 
-function round5(value) {
-    return 5 * Math.round(value / 5);
-}
-
 module.exports = function(raceKm, raceSeconds, hrMax, rangeFormatter) {
     var speedFactor = model(raceKm) / raceSeconds,
         result = [ ];
@@ -36,8 +32,8 @@ module.exports = function(raceKm, raceSeconds, hrMax, rangeFormatter) {
         result.push({
             workout: w,
             effort: rangeFormatter(
-                round5(slowTime / bisectModel(slowTime * speedFactor)),
-                round5(fastTime / bisectModel(fastTime * speedFactor))
+                slowTime / bisectModel(slowTime * speedFactor),
+                fastTime / bisectModel(fastTime * speedFactor)
             ),
             hr: formatHeartRate(w.hrPercent[0]) + " - " + formatHeartRate(w.hrPercent[1])
         });
