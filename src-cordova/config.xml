@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<widget xmlns="http://www.w3.org/ns/widgets"
+        id="ru.amartynov.pace-calculator" 
+        versionCode="100" 
+        version="1.0.0">
+
+    <name>Pace Calculator</name>
+    <description></description>
+
+    <icon src="icon.png" />
+    <platform name="android" />
+    <preference name="permissions" value="none" />
+</widget>

@@ -1,5 +1,2 @@
 node_modules/*
-www/vendor/*
-www/index.html
-www/app.js
-www/app.css
+www/*

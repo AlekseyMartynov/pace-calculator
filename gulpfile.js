@@ -1,6 +1,7 @@
 "use strict";
 
-var DEV = false;
+var DEV = false,
+    CDN = false;
 
 // Keep versions in sync with packages.json
 var JQ_CDN_VERSION = "1.11.3",
@@ -23,24 +24,38 @@ var gulp = require("gulp"),
     uglify = require("gulp-uglify");
 
 
-gulp.task("vendor", function() {
-    if(!DEV)
-        return del("www/vendor");
-
-    return merge(
-        gulp.src("node_modules/jquery/dist/jquery.js").pipe(gulp.dest("www/vendor")),
-        gulp.src("node_modules/knockout/build/output/knockout-latest.debug.js").pipe(gulp.dest("www/vendor")),
-        gulp.src("node_modules/bootstrap/dist/**/*.*").pipe(gulp.dest("www/vendor/bootstrap"))
-    );
+gulp.task("clean", function() {
+    return del("www/**/*");
 });
 
-gulp.task("markup", function() {
+gulp.task("copy-static", function() {
+    gulp
+        .src("src-static/**/*")
+        .pipe(gulp.dest("www"));    
+});
+
+gulp.task("copy-cordova", function() {
+    gulp
+        .src("src-cordova/**/*")
+        .pipe(gulp.dest("www"));
+});
+
+gulp.task("copy-vendor", function() {
+    return merge(
+        gulp.src("node_modules/jquery/dist/" + jqueryFile()).pipe(gulp.dest("www/vendor")),
+        gulp.src("node_modules/knockout/build/output/" + knockoutFile()).pipe(gulp.dest("www/vendor")),
+        gulp.src("node_modules/bootstrap/dist/js/" + bootstrapFile("js")).pipe(gulp.dest("www/vendor/bootstrap/js")),
+        gulp.src("node_modules/bootstrap/dist/css/" + bootstrapFile("css")).pipe(gulp.dest("www/vendor/bootstrap/css"))
+    );        
+});
+
+gulp.task("index.html", function() {
     del.sync("www/index.html");
 
     return gulp
         .src("src/index.jade")
         .pipe(jade({
-            locals: { vendor: vendorPaths() },
+            locals: { vendor: vendorUrls() },
             pretty: DEV
         }))
         .on("error", antiCrash)
@@ -91,41 +106,68 @@ gulp.task("app.css", function() {
         .pipe(connect.reload());
 });
 
-gulp.task("build", [ "vendor", "markup", "app.js", "app.css" ]);
+gulp.task("build", [ "index.html", "app.js", "app.css" ]);
 
 gulp.task("dev", function(callback) {
     DEV = true;
-    gulp.watch("src/**/*.jade", [ "markup" ]);
+    gulp.watch("src/**/*.jade", [ "index.html" ]);
     gulp.watch("src/**/*.js", [ "app.js" ]);
     gulp.watch("src/**/*.less", [ "app.css" ]);
     connect.server({
         root: "www",
         livereload: true
     });
-    runSequence("build", callback);
+    runSequence("clean", [ "copy-vendor", "copy-static", "build" ], callback);
 });
 
-function vendorPaths() {
-    var bootstrapCdn = "https://maxcdn.bootstrapcdn.com/bootstrap/" + BOOTSTRAP_CDN_VERSION; 
+gulp.task("dist-web", function(callback) {
+    CDN = true;
+    runSequence("clean", [ "copy-static", "build" ], callback);
+});
+
+gulp.task("dist-cordova", function(callback) {
+    runSequence("clean", [ "copy-vendor", "copy-static", "copy-cordova", "build"], callback);
+});
+
+function vendorUrls() {
+    
+    function jqueryUrl() {
+        if(CDN)
+            return "https://code.jquery.com/jquery-" + JQ_CDN_VERSION + ".min.js";
+        return "vendor/" + jqueryFile();
+    } 
+    
+    function knockoutUrl() {
+        if(CDN)
+            return "https://cdnjs.cloudflare.com/ajax/libs/knockout/" + KO_CDN_VERSION + "/knockout-min.js";
+        return "vendor/" + knockoutFile();
+    }
+    
+    function bootstrapUrl(kind) {
+        var prefix = CDN ? "https://maxcdn.bootstrapcdn.com/bootstrap/" + BOOTSTRAP_CDN_VERSION : "vendor/bootstrap",
+            postfix = kind + "/" + bootstrapFile(kind);
+            
+        return prefix + "/" + postfix;
+    }
     
     return {
-        jquery: DEV
-            ? "vendor/jquery.js"
-            : "https://code.jquery.com/jquery-" + JQ_CDN_VERSION + ".min.js",
-            
-        knockout: DEV
-            ? "vendor/knockout-latest.debug.js"
-            : "https://cdnjs.cloudflare.com/ajax/libs/knockout/" + KO_CDN_VERSION + "/knockout-min.js",
-
-        bootstrap_css: DEV
-            ? "vendor/bootstrap/css/bootstrap.css"
-            : bootstrapCdn + "/css/bootstrap.min.css",
-            
-        bootstrap_js: DEV
-            ? "vendor/bootstrap/js/bootstrap.js"
-            : bootstrapCdn + "/js/bootstrap.min.js",
-            
+        jquery: jqueryUrl(),
+        knockout: knockoutUrl(),
+        bootstrap_css: bootstrapUrl("css"),
+        bootstrap_js: bootstrapUrl("js"),
     };
+}
+
+function jqueryFile() {
+    return "jquery" + (DEV ? "" : ".min") + ".js";
+}
+
+function knockoutFile() {
+    return "knockout-latest" + (DEV ? ".debug" : "") + ".js";
+}
+
+function bootstrapFile(kind) {
+    return "bootstrap" + (DEV ? "" : ".min") + "." + kind;
 }
 
 function antiCrash(err) {
