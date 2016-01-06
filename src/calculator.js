@@ -17,6 +17,7 @@ module.exports = function(raceKm, raceSeconds, hrMax, rangeFormatter) {
 
     processWorkouts(workouts.endurance);
     processWorkouts(workouts.stamina);
+    processWorkouts(workouts.speed);
 
     return result;
 

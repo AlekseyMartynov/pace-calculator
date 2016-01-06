@@ -48,6 +48,15 @@ module.exports = {
             racePace: [ 5/12 * SEC_PER_HOUR, 1 * SEC_PER_HOUR ],
             hrPercent: [ 0.87, 0.92 ]
         }
+    ],
+    
+    speed: [
+        {
+            name: "Speed Intervals",            
+            info: "1-6 min run with half- or same-duration jog between. VO₂ max pace. Hard effort.",
+            racePace: [ 1/12 * SEC_PER_HOUR, 5/12 * SEC_PER_HOUR ],
+            hrPercent: [ 0.9, 1 ]
+        }
     ]
 
 };
