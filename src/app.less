@@ -8,6 +8,15 @@ body {
     font-family: "Open Sans", sans-serif;
 }
 
+abbr {
+    text-decoration: none; // https://github.com/twbs/bootstrap/issues/16574
+}
+
+button:focus,
+button:active {
+    outline: 0 !important;
+}
+
 .my-col-nopad {
     padding-left: 1px;
     padding-right: 0;
