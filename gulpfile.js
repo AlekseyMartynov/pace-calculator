@@ -21,7 +21,8 @@ var gulp = require("gulp"),
     connect = require("gulp-connect"),
     jade = require("gulp-jade"),
     less = require("gulp-less"),
-    uglify = require("gulp-uglify");
+    uglify = require("gulp-uglify"),
+    zip = require("gulp-zip");
 
 
 gulp.task("clean", function() {
@@ -108,6 +109,12 @@ gulp.task("app.css", function() {
 
 gulp.task("build", [ "index.html", "app.js", "app.css" ]);
 
+gulp.task("zip", function() {
+	return gulp.src("www/**/*")
+		.pipe(zip("www.zip"))
+		.pipe(gulp.dest("www"));    
+});
+
 gulp.task("dev", function(callback) {
     DEV = true;
     gulp.watch("src/**/*.jade", [ "index.html" ]);
@@ -126,7 +133,7 @@ gulp.task("dist-web", function(callback) {
 });
 
 gulp.task("dist-cordova", function(callback) {
-    runSequence("clean", [ "copy-vendor", "copy-static", "copy-cordova", "build"], callback);
+    runSequence("clean", [ "copy-vendor", "copy-static", "copy-cordova", "build"], "zip", callback);
 });
 
 function vendorUrls() {
