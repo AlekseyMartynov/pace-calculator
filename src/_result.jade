@@ -5,11 +5,8 @@ div(data-bind="if: result")
         th Workout
         th: abbr(data-bind="text: effortCaption", title="Recommended effort", data-toggle="tooltip")
         th: abbr(title="Recommended heart rate, beats per minute", data-toggle="tooltip") HR
-    tbody
-      // ko foreach: result
+    tbody(data-bind="foreach: result")
       tr
         td: abbr(data-bind="text: workout.name, attr: { title: workout.info }", data-toggle="tooltip")
         td: strong.text-primary(data-bind="text: effort")
-        td(data-bind="text: hr")
-      // /ko
-      
+        td(data-bind="text: hr")      
