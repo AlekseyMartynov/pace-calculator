@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <widget xmlns="http://www.w3.org/ns/widgets"
         id="ru.amartynov.pace-calculator" 
-        versionCode="103" 
-        version="1.0.3">
+        versionCode="104" 
+        version="1.0.4">
 
     <name>Pace Calculator</name>
     <description></description>
