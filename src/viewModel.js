@@ -5,8 +5,10 @@
 var KM_PER_MILE = 1.609344,
     INPUT_STORAGE_KEY = "input-v1";
 
-var formatterFactory = require("./formatter"),
-    calculator = require("./calculator");
+var 
+    workouts = require("./workouts"),
+    calculator = require("./calculator"),
+    formatterFactory = require("./formatter");
 
 var input = {
     raceDist: ko.observable(),
@@ -68,10 +70,31 @@ function resolveHrMax() {
 }
 
 function calculate() {
-    var formatter = formatterFactory(input.outputFormat() === "speed", input.outputUnits() === "km");
-
-    effortCaption(formatter.unit);
-    result(calculator(raceKilometers(), raceTotalSeconds(), resolveHrMax(), formatter.formatRange));
+    var formatter = formatterFactory(input.outputFormat() === "speed", input.outputUnits() === "km"),
+        pendingResult = null,
+        factor = calculator.calcFactor(raceKilometers(), raceTotalSeconds()),
+        hrMax = resolveHrMax(),
+        i, workout;
+        
+    if(factor && isFinite(factor)) {       
+        effortCaption(formatter.effortUnit);
+        pendingResult = [ ];
+        
+        for(i = 0; i < workouts.length; i++) {
+            workout = workouts[i];
+            pendingResult.push({
+                workout: workout,
+                effort: formatter.formatEfforts(calculator.calcEfforts(workout, factor)),
+                hr: [ formatHr(workout.minHr), formatHr(workout.maxHr) ].join(" - ") 
+            });
+        }
+    }
+    
+    function formatHr(percentage) {
+        return formatter.formatHeartRate(percentage, hrMax);
+    }
+        
+    result(pendingResult);
     persistInput();
 }
 

@@ -17,9 +17,15 @@ function formatPace(secondsPerUnit) {
     return min + ":" + (sec < 10 ? "0" : "") + sec;
 }
 
+function formatHeartRate(percentage, max) {
+    if(!max)
+        return (100 * percentage) + "%";
+    return (max * percentage).toFixed(0);
+}
+
 module.exports = function(isSpeed, isMetric) {
 
-    function resolveUnit() {
+    function resolveEffortUnit() {
         if(isSpeed) {
             if(isMetric)
                 return "km/h";
@@ -30,11 +36,11 @@ module.exports = function(isSpeed, isMetric) {
         return "min/mi";
     }
 
-    function formatRange(slow, fast) {
-        return formatRangeCore(slow, fast).join(" - ");
+    function formatEfforts(efforts) {
+        return formatEffortsCore(efforts.slow, efforts.fast).join(" - ");
     }
 
-    function formatRangeCore(slow, fast) {
+    function formatEffortsCore(slow, fast) {
         if(!isMetric) {
             slow = slow * KM_PER_MILE;
             fast = fast * KM_PER_MILE;
@@ -50,8 +56,9 @@ module.exports = function(isSpeed, isMetric) {
     }
 
     return {
-        unit: resolveUnit(),
-        formatRange: formatRange
+        effortUnit: resolveEffortUnit(),
+        formatEfforts: formatEfforts,
+        formatHeartRate: formatHeartRate
     };
 
 };
