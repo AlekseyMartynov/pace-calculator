@@ -6,8 +6,8 @@
         h4.modal-title(data-bind="text: workout.name")
       .modal-body
         ul
-          li: #[strong.text-primary(data-bind="text: effort")] #[span(data-bind="text: $parent.effortCaption")]
-          li: #[strong.text-primary(data-bind="text: hr")] bpm
+          li #[strong.text-primary(data-bind="text: effort")] #[span(data-bind="text: $parent.effortCaption")]
+          li #[strong.text-primary(data-bind="text: hr")] bpm
           // ko foreach: workout.info
           li(data-bind="text: $data")
           // /ko
