@@ -1,0 +1,15 @@
+.modal.fade#workout-modal(data-bind="if: activeResultItem", tabindex=-1)
+  .modal-dialog
+    .modal-content(data-bind="with: activeResultItem")
+      .modal-header
+        button.close(data-dismiss="modal") &times;
+        h4.modal-title(data-bind="text: workout.name")
+      .modal-body
+        ul
+          li: #[strong.text-primary(data-bind="text: effort")] #[span(data-bind="text: $parent.effortCaption")]
+          li: #[strong.text-primary(data-bind="text: hr")] bpm
+          // ko foreach: workout.info
+          li(data-bind="text: $data")
+          // /ko
+      .modal-footer
+        button.btn.btn-primary(data-dismiss="modal") Close

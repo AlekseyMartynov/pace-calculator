@@ -1,12 +1,14 @@
 div(data-bind="if: result")
-  table.table.table-condensed
+  table.table.table-condensed.table-hover
     thead
       tr
         th Workout
-        th: abbr(data-bind="text: effortCaption", title="Recommended effort", data-toggle="tooltip")
-        th: abbr(title="Recommended heart rate, beats per minute", data-toggle="tooltip") HR
+        th(data-bind="text: effortCaption")
+        th HR
     tbody(data-bind="foreach: result")
-      tr
-        td: abbr(data-bind="text: workout.name, attr: { title: workout.info }", data-toggle="tooltip")
+      tr(data-bind="click: displayDetails")
+        td(data-bind="text: workout.name")
         td: strong.text-primary(data-bind="text: effort")
-        td(data-bind="text: hr")      
+        td(data-bind="text: hr")
+        
+  div.text-center.text-info: small Tap a row for details

@@ -1,4 +1,4 @@
-/* global ko */
+/* global ko, $ */
 
 "use strict";
 
@@ -23,7 +23,8 @@ var input = {
 };
 
 var result = ko.observable(),
-    effortCaption = ko.observable();
+    effortCaption = ko.observable(),
+    activeResultItem = ko.observable();
 
 function toNumber(value) {
     if(typeof value === "string")
@@ -85,7 +86,8 @@ function calculate() {
             pendingResult.push({
                 workout: workout,
                 effort: formatter.formatEfforts(calculator.calcEfforts(workout, factor)),
-                hr: [ formatHr(workout.minHr), formatHr(workout.maxHr) ].join(" - ") 
+                hr: [ formatHr(workout.minHr), formatHr(workout.maxHr) ].join(" - "),
+                displayDetails: displayDetails  
             });
         }
     }
@@ -96,6 +98,11 @@ function calculate() {
         
     result(pendingResult);
     persistInput();
+}
+
+function displayDetails(resultItem) {
+    activeResultItem(resultItem);
+    $("#workout-modal").modal();
 }
 
 function persistInput() {
@@ -145,5 +152,6 @@ module.exports = {
     input: input,
     calculate: calculate,
     result: result,
-    effortCaption: effortCaption
+    effortCaption: effortCaption,
+    activeResultItem: activeResultItem
 };
