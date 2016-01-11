@@ -1,7 +1,8 @@
 "use strict";
 
 var DEV = false,
-    CDN = false;
+    CDN = false,
+    CORDOVA = false;
     
 var OUTPUT_DIR = "www";    
 
@@ -58,7 +59,10 @@ gulp.task("index.html", function() {
     return gulp
         .src("src/index.jade")
         .pipe(jade({
-            locals: { vendor: vendorUrls() },
+            locals: { 
+                vendor: vendorUrls(),
+                cordova: CORDOVA
+            },
             pretty: DEV
         }))
         .on("error", antiCrash)
@@ -138,6 +142,7 @@ gulp.task("dist-web", function(callback) {
 
 gulp.task("dist-cordova", function(callback) {
     OUTPUT_DIR = "dist-cordova";
+    CORDOVA = true;
     runSequence("clean", [ "copy-vendor", "copy-static", "copy-cordova", "build"], "zip", callback);
 });
 
