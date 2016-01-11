@@ -1,5 +1,6 @@
-div.hidden(data-bind="if: result, css: { hidden: false }")
-  table.table.table-condensed.table-hover
+.hidden(data-bind="css: { hidden: false }")
+
+  table.table.table-condensed.table-hover(data-bind="visible: result")
     thead
       tr
         th Workout
@@ -10,3 +11,12 @@ div.hidden(data-bind="if: result, css: { hidden: false }")
         td(data-bind="text: workout.name")
         td: strong.text-primary(data-bind="text: effort")
         td(data-bind="text: hr")
+          
+  .alert.alert-info(data-bind="visible: !result() && !isError()").
+    Start by entering your recent race #[strong Distance] and #[strong Time].
+    Based on it, we estimate your current fitness level
+    and suggest training paces.
+      
+  .alert.alert-danger(data-bind="visible: !result() && isError()").
+    Double check the #[strong Distance] and #[strong Time] fields.
+    The entered data doesn't seem right.

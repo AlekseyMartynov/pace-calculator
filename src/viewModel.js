@@ -23,6 +23,7 @@ var input = {
 };
 
 var result = ko.observable(),
+    isError = ko.observable(),
     effortCaption = ko.observable(),
     activeResultItem = ko.observable();
 
@@ -70,7 +71,11 @@ function resolveHrMax() {
     return null;
 }
 
-function calculate() {
+function submit() {
+    calculate(true);
+}
+
+function calculate(showError) {
     var formatter = formatterFactory(input.outputFormat() === "speed", input.outputUnits() === "km"),
         pendingResult = null,
         factor = calculator.calcFactor(raceKilometers(), raceTotalSeconds()),
@@ -97,6 +102,7 @@ function calculate() {
     }
         
     result(pendingResult);
+    isError(showError && !pendingResult);
     persistInput();
 }
 
@@ -120,8 +126,6 @@ function restoreInput() {
         if(data.hasOwnProperty(key) && key in input)
             input[key](data[key]);
     }
-
-    calculate();
 }
 
 function ensureRange(obs, min, max) {
@@ -147,11 +151,13 @@ ensureRange(input.raceMinutes, 0, 59);
 ensureRange(input.raceSeconds, 0, 59);
 
 restoreInput();
+calculate(false);
 
 module.exports = {
     input: input,
-    calculate: calculate,
+    submit: submit,
     result: result,
+    isError: isError,
     effortCaption: effortCaption,
     activeResultItem: activeResultItem
 };
