@@ -2,6 +2,8 @@
 
 var DEV = false,
     CDN = false;
+    
+var OUTPUT_DIR = "www";    
 
 // Keep versions in sync with packages.json
 var JQ_CDN_VERSION = "1.11.3",
@@ -26,32 +28,32 @@ var gulp = require("gulp"),
 
 
 gulp.task("clean", function() {
-    return del("www/**/*");
+    return del(OUTPUT_DIR + "/**/*");
 });
 
 gulp.task("copy-static", function() {
     gulp
         .src("src-static/**/*")
-        .pipe(gulp.dest("www"));    
+        .pipe(gulp.dest(OUTPUT_DIR));    
 });
 
 gulp.task("copy-cordova", function() {
     gulp
         .src("src-cordova/**/*")
-        .pipe(gulp.dest("www"));
+        .pipe(gulp.dest(OUTPUT_DIR));
 });
 
 gulp.task("copy-vendor", function() {
     return merge(
-        gulp.src("node_modules/jquery/dist/" + jqueryFile()).pipe(gulp.dest("www/vendor")),
-        gulp.src("node_modules/knockout/build/output/" + knockoutFile()).pipe(gulp.dest("www/vendor")),
-        gulp.src("node_modules/bootstrap/dist/js/" + bootstrapFile("js")).pipe(gulp.dest("www/vendor/bootstrap/js")),
-        gulp.src("node_modules/bootstrap/dist/css/" + bootstrapFile("css")).pipe(gulp.dest("www/vendor/bootstrap/css"))
+        gulp.src("node_modules/jquery/dist/" + jqueryFile()).pipe(gulp.dest(OUTPUT_DIR + "/vendor")),
+        gulp.src("node_modules/knockout/build/output/" + knockoutFile()).pipe(gulp.dest(OUTPUT_DIR + "/vendor")),
+        gulp.src("node_modules/bootstrap/dist/js/" + bootstrapFile("js")).pipe(gulp.dest(OUTPUT_DIR + "/vendor/bootstrap/js")),
+        gulp.src("node_modules/bootstrap/dist/css/" + bootstrapFile("css")).pipe(gulp.dest(OUTPUT_DIR + "/vendor/bootstrap/css"))
     );        
 });
 
 gulp.task("index.html", function() {
-    del.sync("www/index.html");
+    del.sync(OUTPUT_DIR + "/index.html");
 
     return gulp
         .src("src/index.jade")
@@ -60,12 +62,12 @@ gulp.task("index.html", function() {
             pretty: DEV
         }))
         .on("error", antiCrash)
-        .pipe(gulp.dest("www"))
+        .pipe(gulp.dest(OUTPUT_DIR))
         .pipe(connect.reload());
 });
 
 gulp.task("app.js", function() {
-    del.sync("www/app.js");
+    del.sync(OUTPUT_DIR + "/app.js");
 
     var bundler = browserify("app.js", {
         basedir: "src",
@@ -84,12 +86,12 @@ gulp.task("app.js", function() {
     }
 
     return stream
-        .pipe(gulp.dest("www"))
+        .pipe(gulp.dest(OUTPUT_DIR))
         .pipe(connect.reload());
 });
 
 gulp.task("app.css", function() {
-    del.sync("www/app.css");
+    del.sync(OUTPUT_DIR + "/app.css");
 
     var stream = gulp
         .src("src/app.less")
@@ -103,36 +105,39 @@ gulp.task("app.css", function() {
     }
 
     return stream
-        .pipe(gulp.dest("www"))
+        .pipe(gulp.dest(OUTPUT_DIR))
         .pipe(connect.reload());
 });
 
 gulp.task("build", [ "index.html", "app.js", "app.css" ]);
 
 gulp.task("zip", function() {
-	return gulp.src("www/**/*")
-		.pipe(zip("www.zip"))
-		.pipe(gulp.dest("www"));    
+	return gulp.src(OUTPUT_DIR + "/**/*")
+		.pipe(zip("dist.zip"))
+		.pipe(gulp.dest(OUTPUT_DIR));    
 });
 
 gulp.task("dev", function(callback) {
+    OUTPUT_DIR = "dist-dev";
     DEV = true;
     gulp.watch("src/**/*.jade", [ "index.html" ]);
     gulp.watch("src/**/*.js", [ "app.js" ]);
     gulp.watch("src/**/*.less", [ "app.css" ]);
     connect.server({
-        root: "www",
+        root: OUTPUT_DIR,
         livereload: true
     });
     runSequence("clean", [ "copy-vendor", "copy-static", "build" ], callback);
 });
 
 gulp.task("dist-web", function(callback) {
+    OUTPUT_DIR = "dist-web";
     CDN = true;
     runSequence("clean", [ "copy-static", "build" ], callback);
 });
 
 gulp.task("dist-cordova", function(callback) {
+    OUTPUT_DIR = "dist-cordova";
     runSequence("clean", [ "copy-vendor", "copy-static", "copy-cordova", "build"], "zip", callback);
 });
 
