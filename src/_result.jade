@@ -1,4 +1,4 @@
-div(data-bind="if: result")
+div.hidden(data-bind="if: result, css: { hidden: false }")
   table.table.table-condensed.table-hover
     thead
       tr
