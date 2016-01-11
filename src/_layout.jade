@@ -8,14 +8,15 @@ html
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="msapplication-tap-highlight", content="no")
-
+    
+    if cordova
+      script(src="cordova.js")
+      
     link(rel="stylesheet" href=vendor.bootstrap_css)
     link(rel="stylesheet" href="app.css")
   body
     .container-fluid
         block body
-    if cordova
-      script(src="cordova.js")
     script(src=vendor.jquery)
     script(src=vendor.knockout)
     script(src=vendor.bootstrap_js)
