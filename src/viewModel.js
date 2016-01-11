@@ -42,12 +42,9 @@ function raceKilometers() {
 
         case "mi":
             return value * KM_PER_MILE;
-
-        case "km":
-            return value;
     }
 
-    throw "Unexpected";
+    return value;
 }
 
 function raceTotalSeconds() {
