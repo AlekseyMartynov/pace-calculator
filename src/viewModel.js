@@ -77,7 +77,7 @@ function calculate() {
         hrMax = resolveHrMax(),
         i, workout;
         
-    if(factor && isFinite(factor)) {       
+    if(factor > 0.2 && factor < 2) {       
         effortCaption(formatter.effortUnit);
         pendingResult = [ ];
         
