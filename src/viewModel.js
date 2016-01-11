@@ -70,6 +70,7 @@ function resolveHrMax() {
 
 function submit() {
     calculate(true);
+    persistInput();
 }
 
 function calculate(showError) {
@@ -100,7 +101,6 @@ function calculate(showError) {
         
     result(pendingResult);
     isError(showError && !pendingResult);
-    persistInput();
 }
 
 function displayDetails(resultItem) {
