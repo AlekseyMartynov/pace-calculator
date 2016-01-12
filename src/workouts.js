@@ -3,7 +3,7 @@
 // https://www.mcmillanrunning.com/articlePages/article/3
 // https://www.mcmillanrunning.com/articlePages/page/21
 
-var WARMUP = "Warm-up and cool-down for 10-20 minutes!";
+var WARMUP = "Include a warm-up and cool-down, at your Easy pace for 10-20 minutes!";
     
 function create(name, info, minHours, maxHours, minHr, maxHr) {
     return {
