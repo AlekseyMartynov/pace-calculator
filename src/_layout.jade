@@ -9,6 +9,9 @@ html
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
     meta(name="msapplication-tap-highlight", content="no")
     
+    if !cordova
+      style @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+    
     if cordova
       script(src="cordova.js")
       
