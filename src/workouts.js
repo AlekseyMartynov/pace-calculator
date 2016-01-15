@@ -3,16 +3,15 @@
 // https://www.mcmillanrunning.com/articlePages/article/3
 // https://www.mcmillanrunning.com/articlePages/page/21
 
-var WARMUP = "Include a warm-up and cool-down, at your Easy pace for 10-20 minutes!";
-    
-function create(name, info, minHours, maxHours, minHr, maxHr) {
+function create(name, info, minHours, maxHours, minHr, maxHr, stress) {
     return {
         name: name,
         info: info,
         minHours: minHours,
         maxHours: maxHours,
         minHr: minHr,
-        maxHr: maxHr
+        maxHr: maxHr,
+        stress: stress
     };
 }    
 
@@ -23,9 +22,9 @@ module.exports = [
     create(
         "Recovery",
         [ 
-            "15-60 minutes",
+            "15-45 minutes",
             "Very slow!", 
-            "To recover from previous training or racing"
+            "To recover from hard training or racing"
         ],
         7, 10,
         0.6, 0.7
@@ -34,10 +33,9 @@ module.exports = [
     create(
         "Long",
         [ 
-            "At least 1 hour",
-            "To build endurance",
-            "To increase your ability to burn fat",
-            "Optionally fast-finish the last 10 minutes at a medium-hard effort"
+            "At least 1 hour, up to 4 hours",
+            "To improve endurance",
+            "Optionally fast-finish the last 10-20 minutes at a medium-hard effort"
         ],
         3.75, 8,
         0.6, 0.85
@@ -47,8 +45,8 @@ module.exports = [
         "Easy",
         [
             "15-90 minutes",
-            "To develop and maintain your aerobic capacity", 
-            "Most runs in a runner's program are easy runs!"
+            "To develop and maintain basic fitness level", 
+            "Bulk of your training!"
         ],
         3.5, 6.75,
         0.6, 0.85
@@ -61,38 +59,36 @@ module.exports = [
         [
             "25-90 minutes",
             "Slower than your lactate threshold pace", 
-            "To improve your body's efficiency in removing lactic acid",
-            "To learn how to best distribute the effort",
-            WARMUP
+            "Best workout to raise base fitness"
         ],
         1.25, 2.5,
-        0.83, 0.87
+        0.83, 0.87,
+        true
     ),
     
     create(
         "Tempo",
         [
-            "10-40 minutes",
-            "Running at (or very near) your lactate threshold",
-            "To push your threshold pace faster", 
-            "Comfortably-hard effort", 
-            WARMUP
+            "15-40 minutes",
+            "Running at your lactate threshold pace, to push it faster",
+            "Comfortably-hard effort"
         ],
         2 / 3, 1.25,
-        0.85, 0.9
+        0.85, 0.9,
+        true
     ),
     
     create(
         "Tempo Intervals",
         [
-            "2-15 minutes run with quarter-duration jog between",
+            "2-15 minute run with quarter-duration jog between",
+            "20-60 minutes in total",
             "Faster than your lactate threshold pace",
-            "Alternative to regular Tempo runs", 
-            "Medium-hard effort", 
-            WARMUP
+            "Medium-hard effort"
         ],
         5/12, 1,
-        0.87, 0.92
+        0.87, 0.92,
+        true
     ),
     
     // Speed
@@ -100,14 +96,14 @@ module.exports = [
     create(
         "Speed Intervals",            
         [
-            "1-6 minutes run with half- or same-duration jog between", 
-            "VO₂ max pace",
-            "To increase your body's ability to process oxygen", 
-            "Hard effort", 
-            WARMUP
+            "1-6 minute run with half- or equal-duration jog between",
+            "10-30 minutes in total", 
+            "Running at your VO₂ max pace, to push it faster",
+            "Hard effort"
         ],
         1/12, 5/12,
-        0.9, 1
+        0.9, 1,
+        true
     )
 
 ];

@@ -11,5 +11,8 @@
           // ko foreach: workout.info
           li(data-bind="text: $data")
           // /ko
+          
+          li(data-bind="visible: workout.stress")
+            strong.text-warning Warm-up and cool-down for 10-20 minutes at your Easy pace!
       .modal-footer
         button.btn.btn-primary(data-dismiss="modal") Close
