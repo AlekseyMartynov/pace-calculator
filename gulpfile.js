@@ -7,8 +7,8 @@ var DEV = false,
 var OUTPUT_DIR = "www";    
 
 // Keep versions in sync with packages.json
-var JQ_CDN_VERSION = "1.11.3",
-    BOOTSTRAP_CDN_VERSION = "3.3.6",
+var JQ_CDN_VERSION = "3.3.1",
+    BOOTSTRAP_CDN_VERSION = "3.4.0",
     KO_CDN_VERSION = "3.4.0";
 
 var
