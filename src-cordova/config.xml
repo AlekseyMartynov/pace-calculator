@@ -1,16 +1,21 @@
 <?xml version="1.0"?>
 <widget xmlns="http://www.w3.org/ns/widgets"
+        xmlns:gap="http://phonegap.com/ns/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         id="ru.amartynov.pace-calculator" 
-        versionCode="107" 
-        version="1.0.7">
+        versionCode="108" 
+        version="1.0.8">
 
     <name>Pace Calculator</name>
     <description></description>
 
     <platform name="android">
         <icon src="icon.png" />
+        <splash src="none" />
         <plugin name="cordova-plugin-statusbar" source="npm" version="2.1.0" />
         <preference name="StatusBarBackgroundColor" value="#999999" />
+        <preference name="android-targetSdkVersion" value="26" />
+        <preference name="android-minSdkVersion" value="14" />
     </platform>
     
     <platform name="winphone">
@@ -19,4 +24,8 @@
     </platform>
 
     <preference name="permissions" value="none" />
+
+    <gap:config-file platform="android" parent="/manifest">
+        <application android:theme="@android:style/Theme.NoTitleBar" />
+    </gap:config-file>
 </widget>
