@@ -116,7 +116,7 @@ gulp.task("app.css", function() {
 gulp.task("build", [ "index.html", "app.js", "app.css" ]);
 
 gulp.task("zip", function() {
-	return gulp.src(OUTPUT_DIR + "/**/*")
+	return gulp.src(OUTPUT_DIR + "/**/*", { nodir: true })
 		.pipe(zip("dist.zip"))
 		.pipe(gulp.dest(OUTPUT_DIR));    
 });
