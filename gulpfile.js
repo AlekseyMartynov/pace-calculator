@@ -5,6 +5,7 @@ var DEV = false,
     CORDOVA = false;
     
 var OUTPUT_DIR = "www";    
+var EXTRA_STATIC;
 
 // Keep versions in sync with packages.json
 var JQ_CDN_VERSION = "3.3.1",
@@ -33,14 +34,12 @@ gulp.task("clean", function() {
 });
 
 gulp.task("copy-static", function() {
-    gulp
-        .src("src-static/**/*")
-        .pipe(gulp.dest(OUTPUT_DIR));    
-});
+    var list = [ "src-static/**/*" ];
+    if(EXTRA_STATIC)
+        list.push(EXTRA_STATIC);
 
-gulp.task("copy-cordova", function() {
     gulp
-        .src("src-cordova/**/*")
+        .src(list)
         .pipe(gulp.dest(OUTPUT_DIR));
 });
 
@@ -135,15 +134,17 @@ gulp.task("dev", function(callback) {
 });
 
 gulp.task("dist-web", function(callback) {
-    OUTPUT_DIR = "dist-web";
+    OUTPUT_DIR = "docs";
+    EXTRA_STATIC = "src-web/**/*";
     CDN = true;
     runSequence("clean", [ "copy-static", "build" ], callback);
 });
 
 gulp.task("dist-cordova", function(callback) {
     OUTPUT_DIR = "dist-cordova";
+    EXTRA_STATIC = "src-cordova/**/*";
     CORDOVA = true;
-    runSequence("clean", [ "copy-vendor", "copy-static", "copy-cordova", "build"], "zip", callback);
+    runSequence("clean", [ "copy-vendor", "copy-static", "build"], "zip", callback);
 });
 
 function vendorUrls() {
